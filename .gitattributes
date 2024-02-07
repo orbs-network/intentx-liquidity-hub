@@ -1,0 +1,4 @@
+# Auto detect text files and perform LF normalization
+/.yarn/releases/** binary
+/.yarn/plugins/** binary
+* text=auto

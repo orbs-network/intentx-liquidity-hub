@@ -1,0 +1,64 @@
+{
+  "name": "IntentX",
+  "short_name": "IntentX",
+  "theme_color": "#FF0420",
+  "background_color": "#38404F",
+  "display": "standalone",
+  "start_url": "/",
+  "id": "/",
+  "icons": [
+    { "src": "./images/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./images/icon-256x256.png", "sizes": "256x256", "type": "image/png", "purpose": "any" },
+    { "src": "./images/icon-384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "./images/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./images/maskable_icon_x96.png", "sizes": "96x96", "type": "image/png", "purpose": "maskable" },
+    { "src": "./images/maskable_icon_x128.png", "sizes": "128x128", "type": "image/png", "purpose": "maskable" },
+    { "src": "./images/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "./images/maskable_icon_x384.png", "sizes": "384x384", "type": "image/png", "purpose": "maskable" },
+    { "src": "./images/maskable_icon_x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "./images/maskable_icon.png", "sizes": "1137x1137", "type": "image/png", "purpose": "any" }
+  ],
+  "screenshots": [
+    { "src": "./images/desktop.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide" },
+    { "src": "./images/phone.png", "sizes": "750x1334", "type": "image/png" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Trade",
+      "url": "/trade/BTCUSDT",
+      "description": "Decentralized OTC perpetual exchange. Trade BTC, ETH, ARB and +180 other markets oracle-less and with up to 60x leverage",
+      "icons": [
+        { "src": "./images/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
+      ]
+    },
+    {
+      "name": "Markets",
+      "url": "/markets",
+      "icons": [
+        { "src": "./images/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
+      ]
+    },
+    {
+      "name": "Account",
+      "url": "/my-account",
+      "icons": [
+        { "src": "./images/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
+      ]
+    },
+    {
+      "name": "Referrals",
+      "url": "/referrals",
+      "icons": [
+        { "src": "./images/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
+      ]
+    }
+  ],
+  "orientation": "portrait",
+  "description": "Decentralized OTC perpetual exchange. Trade BTC, ETH, ARB and +180 other markets oracle-less and with up to 60x leverage",
+  "iconPath": "./images/icon-512x512.png",
+  "provided_by": { "name": "IntentX", "url": "https://app.intentx.io" },
+  "categories": ["business", "finance", "productivity", "security", "utilities"],
+  "lang": "en",
+  "dir": "ltr",
+  "homepage_url": "https://app.intentx.io"
+}

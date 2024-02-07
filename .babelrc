@@ -1,0 +1,13 @@
+{
+  "output": "export",
+  "images": {
+    "unoptimized": true
+  },
+  "presets": ["next/babel"],
+  "plugins": [["babel-plugin-styled-components", { "ssr": false }], "@babel/plugin-proposal-private-methods"],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"] // Remove console.log in production environment
+    }
+  }
+}

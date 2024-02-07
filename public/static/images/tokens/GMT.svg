@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="128px" height="128px" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#E6BC7B;}
+	.st1{filter:url(#Adobe_OpacityMaskFilter);}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+</style>
+<g id="页面-1">
+	<g id="组_1255">
+		<g id="katie-harp-oZgj_nQQvuo-unsplash">
+			<g id="蒙版">
+				<g id="path-1_00000183240040369514685150000009807392982716939155_">
+					<circle class="st0" cx="64.2" cy="64" r="61.8"/>
+				</g>
+			</g>
+			<defs>
+				<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-30.7" y="2.2" width="185.4" height="123.6">
+					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+				</filter>
+			</defs>
+			
+				<mask maskUnits="userSpaceOnUse" x="-30.7" y="2.2" width="185.4" height="123.6" id="mask-2_00000072249256334617634660000003879132806789529241_">
+				<g class="st1">
+					<circle id="path-1_00000080175022608966219520000012922529105469069470_" class="st2" cx="64.2" cy="64" r="61.8"/>
+				</g>
+			</mask>
+			<g style="mask:url(#mask-2_00000072249256334617634660000003879132806789529241_);enable-background:new    ;">
+				
+					<image style="overflow:visible;" width="612" height="408" id="Image-1" xlink:href="235E4C2B44B2021A.png"  transform="matrix(0.303 0 0 0.303 -30.7189 2.1874)">
+				</image>
+			</g>
+		</g>
+		<path d="M89,60.8H56.5c-1.5,0-2.6,1.2-2.6,2.6s1.2,2.6,2.6,2.6h29.9v13.1H71.8c0,0,0,0,0,0H56.5c0,0,0,0,0,0H41.9V48.6H89
+			c1.5,0,2.6-1.2,2.6-2.6c0-1.5-1.2-2.6-2.6-2.6H74.4V30.5c0-1.5-1.2-2.6-2.6-2.6c-1.5,0-2.6,1.2-2.6,2.6v12.8h-10V30.5
+			c0-1.5-1.2-2.6-2.6-2.6s-2.6,1.2-2.6,2.6v12.8H39.3c-1.5,0-2.6,1.2-2.6,2.6v35.9c0,1.5,1.2,2.6,2.6,2.6h14.6v12.8
+			c0,1.5,1.2,2.6,2.6,2.6s2.6-1.2,2.6-2.6V84.5h10v12.8c0,1.5,1.2,2.6,2.6,2.6c1.5,0,2.6-1.2,2.6-2.6V84.5H89c1.5,0,2.6-1.2,2.6-2.6
+			V63.5C91.7,62,90.5,60.8,89,60.8z"/>
+		<g id="椭圆_164">
+			<path d="M64.2,116.1c-13.9,0-27-5.4-36.9-15.3C17.4,91,12,77.9,12,63.9s5.4-27,15.3-36.9c9.9-9.9,23-15.3,36.9-15.3
+				c13.9,0,27,5.4,36.9,15.3c9.9,9.9,15.3,23,15.3,36.9s-5.4,27-15.3,36.9C91.2,110.7,78.1,116.1,64.2,116.1z M64.2,17
+				c-25.9,0-46.9,21-46.9,46.9c0,25.9,21,46.9,46.9,46.9s46.9-21,46.9-46.9C111.1,38,90,17,64.2,17z"/>
+		</g>
+	</g>
+</g>
+</svg>

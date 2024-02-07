@@ -1,0 +1,5 @@
+.theme-dark:root {
+  /* --tv-color-platform-background: #131518; */
+  --tv-color-pane-background: #131518;
+  border-top: 1px solid #2b2b2b;
+}

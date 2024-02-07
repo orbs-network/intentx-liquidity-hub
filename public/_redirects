@@ -1,0 +1,3 @@
+/quote/* /quote/[quoteId] 200
+/trade/* /trade/[symbol] 200
+/ /trade/BTCUSDT 301
