@@ -1,10 +1,15 @@
 import Image from 'next/image'
 import styled from 'styled-components'
-
-import useCurrencyLogo from 'lib/hooks/useCurrencyLogo'
-
 import RedirectArrow from 'components/Icons/RedirectArrow'
 import { Row, RowBetween } from 'components/Row'
+import {
+  Token,
+  useTokens,
+  TokenList as LiquidityHubTokenList,
+  useFormatNumber,
+  TokenListItemProps,
+} from '@orbs-network/liquidity-hub-ui-sdk'
+import { Loader } from 'components/Icons'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +17,7 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 10px;
   margin-top: 10px;
-  max-height: 330px;
+  height: 330px;
   overflow-y: auto;
 `
 
@@ -27,7 +32,7 @@ const Label = styled.span<{ size?: string; weight?: string; reducedOpacity?: boo
 `}
 `
 
-const ElementContainer = styled.div`
+const ElementContainer = styled.div<{ $disabled?: boolean }>`
   display: flex;
   width: 100%;
   padding: 12px 14px;
@@ -36,7 +41,7 @@ const ElementContainer = styled.div`
   transition: background 0.3s ease;
   gap: 9px;
   cursor: pointer;
-
+  opacity: ${({ $disabled }) => ($disabled ? '0.5' : '1')};
   &:hover {
     background: #38404f;
   }
@@ -62,36 +67,34 @@ const IconContainer = styled.div<{ isSwap?: boolean }>`
   z-index: 20;
 `
 
-function TokenListElement({ data }: { data: any }) {
-  const { symbol, name, value, secondaryValue } = data
+const ListItem = ({ token, selected, balance: _balance }: TokenListItemProps) => {
+  // const usd = useFormatNumber({ value: useUsdAmount(token.address, _balance) })
 
-  const tokenIcon = useCurrencyLogo(symbol)
-
-  const getTokenColumn = () => {
-    return (
-      <ColumnContainer orientation="left">
-        <Row>
-          <Label reducedOpacity>{symbol}</Label>
-        </Row>
-        <Row>
-          <Label reducedOpacity>{name} Coin</Label>
-        </Row>
-      </ColumnContainer>
-    )
-  }
+  const balance = useFormatNumber({ value: _balance })
 
   return (
-    <ElementContainer>
+    <ElementContainer $disabled={selected}>
       <IconContainer>
-        <Image src={tokenIcon} alt="" width={30} />
+        <Image src={token.logoUrl || ''} alt="" width={30} height={30} style={{ borderRadius: '50%' }} />
       </IconContainer>
       <RowBetween>
-        {getTokenColumn()}
+        <ColumnContainer orientation="left">
+          <Row>
+            <Label reducedOpacity>{token.symbol}</Label>
+          </Row>
+          <Row>
+            <Label reducedOpacity>{token.name} Coin</Label>
+          </Row>
+        </ColumnContainer>
         <Row gap="10px" width="fit-content">
-          <ColumnContainer>
-            <Label>{value}</Label>
-            <Label reducedOpacity>${secondaryValue}</Label>
-          </ColumnContainer>
+          {!balance ? (
+            <Loader />
+          ) : (
+            <ColumnContainer>
+              <Label>{balance}</Label>
+              {/* <Label reducedOpacity>${usd || '0'}</Label> */}
+            </ColumnContainer>
+          )}
           <ActionButton onClick={() => {}}>
             <RedirectArrow />
           </ActionButton>
@@ -101,21 +104,25 @@ function TokenListElement({ data }: { data: any }) {
   )
 }
 
-export default function TokensList({ data, onSelectToken }: { data: any; onSelectToken(token: any): void }) {
-  const handleSelectToken = (element: any) => (): void => {
-    onSelectToken?.(element)
-  }
+export default function TokensList({
+  searchValue,
+  onTokenSelect,
+}: {
+  searchValue?: string
+  onTokenSelect: (token: Token) => void
+}) {
+  const tokens = useTokens(searchValue)
 
   return (
-    <div>
-      <Label size="12px">Available Tokens</Label>
+    <Container>
+      <Label size="12px">{tokens?.length ? 'Available Tokens' : 'Loading tokens...'}</Label>
       <Wrapper>
-        {data.map((element, index) => (
-          <div onClick={handleSelectToken(element)} key={index}>
-            <TokenListElement data={element} />
-          </div>
-        ))}
+      <LiquidityHubTokenList itemSize={78} onTokenSelect={onTokenSelect} tokens={tokens} ListItem={ListItem} />
       </Wrapper>
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  flex: 1;
+`

@@ -1,8 +1,7 @@
+import { Token } from '@orbs-network/liquidity-hub-ui-sdk'
+import { Loader } from 'components/Icons'
 import ExpandArrow from 'components/Icons/ExpandArrow'
-import useCurrencyLogo from 'lib/hooks/useCurrencyLogo'
 import Image from 'next/image'
-import { useToggleModal } from 'state/application/hooks'
-import { ApplicationModal } from 'state/application/reducer'
 import styled, { useTheme } from 'styled-components'
 
 const Wrapper = styled.div`
@@ -12,11 +11,10 @@ const Wrapper = styled.div`
   border-radius: 10px;
   background: #232933;
   cursor: pointer;
-  width: 140px;
-
   ${({ theme }) => theme.mediaWidth.upToExtraLarge`
-  width: 100px;
-  padding: 7px;
+  width: 140px;
+  padding: 0px 7px;
+  height: 38px;
 `};
 `
 
@@ -44,16 +42,20 @@ const DropdownButton = styled.div`
   margin-left: auto;
 `
 
-export default function TokenDropdown({ tokenName }: { tokenName: string }) {
-  const icon = useCurrencyLogo(tokenName)
+export default function TokenDropdown({ token, onClick }: { token?: Token; onClick: () => void }) {
   const theme = useTheme()
-  const toggleTokenSelectionModal = useToggleModal(ApplicationModal.TOKEN_SELECTION)
 
   return (
-    <Wrapper onClick={() => toggleTokenSelectionModal()}>
-      <Image src={icon} alt="token" width={24} />
-      <Separator />
-      <Label color={theme.white}>{tokenName}</Label>
+    <Wrapper onClick={onClick}>
+      {token ? (
+        <>
+          <Image src={token.logoUrl || ''} alt="token" width={24} height={24} style={{borderRadius:'50%'}} />
+          <Separator />
+          <Label color={theme.white}>{token.symbol}</Label>
+        </>
+      ) : (
+        <Label color={theme.white}>Select token</Label>
+      )}
       <DropdownButton>
         <ExpandArrow disabled isExpanded />
       </DropdownButton>

@@ -1,9 +1,19 @@
+import {
+  Token,
+  useFormatNumber,
+  useSetMaxBalance,
+  useUsdAmount,
+  useBalancesLoading,
+} from '@orbs-network/liquidity-hub-ui-sdk'
 import TokenDropdown from 'components/App/SpotTrading/TokenDropdown'
 import BalanceWallet from 'components/BalanceWallet'
+import { Loader } from 'components/Icons'
 import LineChartBaseline from 'components/Icons/LineChartBaseline'
 import { SpotCustomBox } from 'components/InputBox'
+import TokenSelectionModal from 'components/Modals/SpotTrading/TokenSelectionModal'
 import { Row } from 'components/Row'
-import { useIsLaptop, useIsMobile } from 'lib/hooks/useWindowSize'
+import { useIsLaptop } from 'lib/hooks/useWindowSize'
+import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -38,49 +48,85 @@ const ColumnContainer = styled.div<{ orientation?: string }>`
   gap: 5px;
 `
 
+const Balance = ({ balance, onClick }: { balance?: string; onClick?: () => void }) => {
+  const _balance = useFormatNumber({ value: balance })
+
+  const isLoading = useBalancesLoading()
+
+  return (
+    <StyledBalance gap="4px">
+      <BalanceWallet />
+      {isLoading ? (
+        <>
+          <Label onClick={onClick}>Balance: </Label>
+          <Loader size="15px" />
+        </>
+      ) : (
+        <Label onClick={onClick}>Balance: {_balance || '-'}</Label>
+      )}
+    </StyledBalance>
+  )
+}
+
+const StyledBalance = styled(Row)`
+  cursor: pointer;
+`
+
 export default function SpotTradeInput({
   leftLabel,
   rightLabel,
-  tokenBalance,
-  tokenName,
   onUpdateValue,
   value,
-  tokenValue,
+  isSrc,
+  token,
+  onTokenSelect,
+  balance,
 }: {
   leftLabel: string
   rightLabel: string
-  tokenBalance: string
-  tokenName: string
-  onUpdateValue(value: string): void
-  value: string
-  tokenValue: string
+  onUpdateValue?: (value: string) => void
+  value?: string
+  isSrc?: boolean
+  token?: Token
+  onTokenSelect: (token: Token) => void
+  balance?: string
 }) {
-  const isMobile = useIsMobile()
+  const [isOpen, setIsOpen] = useState(false)
   const isLaptop = useIsLaptop()
-  const onValueChange = (value: string): void => {
-    onUpdateValue?.(value)
-  }
+  const setMaxBalance = useSetMaxBalance()
+  const usd = useFormatNumber({ value: useUsdAmount(token?.address, value || '0').usd })
+
+  const _onTokenSelect = useCallback(
+    (token: Token) => {
+      onTokenSelect(token)
+      setIsOpen(false)
+    },
+    [onTokenSelect, setIsOpen]
+  )
 
   return (
     <Wrapper>
       <ColumnContainer orientation="left">
         <Label>{leftLabel}</Label>
-        <TokenDropdown tokenName={tokenName} />
-        <Row gap="4px">
-          <BalanceWallet />
-          <Label>Balance: {tokenBalance}</Label>
-        </Row>
+        <TokenDropdown token={token} onClick={() => setIsOpen(true)} />
+        <Balance balance={balance} onClick={isSrc ? setMaxBalance : undefined} />
       </ColumnContainer>
-
 
       <ColumnContainer>
         <Label>{rightLabel}</Label>
-        <SpotCustomBox value={value} onChange={onValueChange} placeholder="0.00" isLaptop={isLaptop || isMobile} />
+        <SpotCustomBox
+          disabled={!isSrc}
+          value={value || ''}
+          onChange={(value: string) => onUpdateValue?.(value)}
+          placeholder="0.00"
+          isLaptop={isLaptop}
+        />
         <Row gap="4px" width="fit-content">
           <LineChartBaseline />
-          <Label>${tokenValue}</Label>
+          <Label>${usd || '0'}</Label>
         </Row>
       </ColumnContainer>
+      <TokenSelectionModal isOpen={isOpen} closeModal={() => setIsOpen(false)} onTokenSelect={_onTokenSelect} />
     </Wrapper>
   )
 }

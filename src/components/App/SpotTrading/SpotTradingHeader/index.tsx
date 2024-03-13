@@ -74,16 +74,13 @@ const ActionButton = styled.div`
   z-index: 9999;
 `
 
-export default function SpotTradingHeader({ onReload }: { onReload: any }) {
+export default function SpotTradingHeader() {
   const isMobile = useIsMobile()
   const isLaptop = useIsLaptop()
   const toggleSettingModal = useToggleModal(ApplicationModal.SPOT_SETTINGS)
 
   const [hoveredElement, setHoveredElement] = useState<string | undefined>(undefined)
 
-  const handleReload = (): void => {
-    onReload?.()
-  }
 
   const handleOpenSettings = (): void => {
     toggleSettingModal()
@@ -123,13 +120,13 @@ export default function SpotTradingHeader({ onReload }: { onReload: any }) {
 
       <ColumnContainer>
         <ActionsContainer>
-          <ActionButton
+          {/* <ActionButton
             onClick={handleReload}
             onMouseEnter={() => setHoveredElement('reload')}
             onMouseLeave={() => setHoveredElement(undefined)}
           >
             <Reload hovered={hoveredElement === 'reload'} size={isLaptop || isMobile ? '16' : '24'} />
-          </ActionButton>
+          </ActionButton> */}
           <ActionButton
             onClick={handleOpenSettings}
             onMouseEnter={() => setHoveredElement('settings')}
