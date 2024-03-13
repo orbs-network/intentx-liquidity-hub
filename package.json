@@ -31,6 +31,7 @@
     "@ethersproject/experimental": "^5.7.0",
     "@gelatonetwork/relay-sdk": "^5.5.2",
     "@marcius-capital/binance-api": "^0.2.16",
+    "@orbs-network/liquidity-hub-ui-sdk": "0.0.19",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "@react-spring/web": "^9.3.0",
     "@reduxjs/toolkit": "^1.9.7",

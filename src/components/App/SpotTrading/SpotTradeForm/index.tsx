@@ -1,3 +1,4 @@
+import { useFromTokenPanel, useSwapTokens, useToTokenPanel } from '@orbs-network/liquidity-hub-ui-sdk'
 import SpotTradeInput from 'components/App/SpotTrading/SpotTradeInput'
 import Swap from 'components/Icons/Swap'
 import { useIsLaptop, useIsMobile } from 'lib/hooks/useWindowSize'
@@ -55,65 +56,60 @@ const SwapContainer = styled.div<{ isHovering?: boolean }>`
 `};
 `
 
-export default function SpotTradeForm({
-  onUpdateFromToken,
-  onUpdateToToken,
-  onClickSwap,
-  tokenFrom,
-  tokenTo,
-}: {
-  onUpdateFromToken(value: string): void
-  onUpdateToToken(value: string): void
-  onClickSwap(): void
-  tokenFrom: any
-  tokenTo: any
-}) {
+const FromToken = () => {
+  const { token, onChange, onTokenSelect, amount, balance } = useFromTokenPanel()
+  return (
+    <SpotTradeInput
+      leftLabel="From"
+      rightLabel="Exchange"
+      token={token}
+      onUpdateValue={onChange}
+      value={amount}
+      isSrc
+      onTokenSelect={onTokenSelect}
+      balance={balance}
+    />
+  )
+}
+
+const ToToken = () => {
+  const { token, onTokenSelect, amount, balance } = useToTokenPanel()
+  return (
+    <SpotTradeInput
+      onTokenSelect={onTokenSelect}
+      token={token}
+      leftLabel="To"
+      rightLabel="Receive"
+      value={amount}
+      balance={balance}
+    />
+  )
+}
+
+const SwapTokens = () => {
+  const swapTokens = useSwapTokens()
+  const [isHoveringSwapButton, setIsHoveringSwapButton] = useState<boolean>(false)
   const isMobile = useIsMobile()
   const isLaptop = useIsLaptop()
-  const [isHoveringSwapButton, setIsHoveringSwapButton] = useState<boolean>(false)
-
-  const updateFromTokenAmount = (value: string): void => {
-    onUpdateFromToken?.(value)
-  }
-
-  const updateToTokenAmount = (value: string): void => {
-    onUpdateToToken?.(value)
-  }
-
-  const handleSwapClick = () => {
-    onClickSwap?.()
-  }
-
+  return (
+    <SwapButton
+      onMouseEnter={() => setIsHoveringSwapButton(true)}
+      onMouseLeave={() => setIsHoveringSwapButton(false)}
+      isHovering={isHoveringSwapButton}
+      onClick={swapTokens}
+    >
+      <SwapContainer isHovering={isHoveringSwapButton}>
+        <Swap size={isLaptop || isMobile ? '16' : '24'} />
+      </SwapContainer>
+    </SwapButton>
+  )
+}
+export default function SpotTradeForm() {
   return (
     <Wrapper>
-      <SpotTradeInput
-        leftLabel="From"
-        rightLabel="Exchange"
-        tokenBalance={tokenFrom.balance}
-        tokenName={tokenFrom.name}
-        onUpdateValue={updateFromTokenAmount}
-        value={tokenFrom.value}
-        tokenValue="0.00"
-      />
-      <SwapButton
-        onMouseEnter={() => setIsHoveringSwapButton(true)}
-        onMouseLeave={() => setIsHoveringSwapButton(false)}
-        isHovering={isHoveringSwapButton}
-        onClick={handleSwapClick}
-      >
-        <SwapContainer isHovering={isHoveringSwapButton}>
-          <Swap size={isLaptop || isMobile ? '16' : '24'} />
-        </SwapContainer>
-      </SwapButton>
-      <SpotTradeInput
-        leftLabel="To"
-        rightLabel="Receive"
-        tokenBalance={tokenTo.balance}
-        tokenName={tokenTo.name}
-        onUpdateValue={updateToTokenAmount}
-        value={tokenTo.value}
-        tokenValue="0.00"
-      />
+      <FromToken />
+      <SwapTokens />
+      <ToToken />
     </Wrapper>
   )
 }

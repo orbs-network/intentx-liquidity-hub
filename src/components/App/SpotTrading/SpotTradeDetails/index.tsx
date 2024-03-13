@@ -1,6 +1,7 @@
+import { useFormatNumber, useFromTokenPanel, useNetworkFee } from '@orbs-network/liquidity-hub-ui-sdk'
 import CollapseChevron from 'components/CollapseChevron'
 
-import { Info as InfoIcon } from 'components/Icons'
+import { Info as InfoIcon, Loader } from 'components/Icons'
 import { Row, RowBetween } from 'components/Row'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -79,12 +80,18 @@ const StyledInfoIcon = styled(InfoIcon)`
 
 export default function SpotTradeDetails({}: {}) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
+  const { token, amount } = useFromTokenPanel()
 
+  const _amount = useFormatNumber({ value: amount })
+  const networkFee = useNetworkFee()
   return (
     <Wrapper>
       <RowBetween>
         <Label reducedOpacity>
-          <Label weight="600">0.00 BTC</Label> is all you pay, fees included
+          <Label weight="600">
+            {_amount || '0.00'} {token?.symbol}
+          </Label>{' '}
+          is all you pay, fees included
         </Label>
         <Row
           gap="5px"
@@ -101,31 +108,11 @@ export default function SpotTradeDetails({}: {}) {
 
       <DetailsWrapper isCollapsed={isCollapsed}>
         <Separator />
-
-        <RowBetween>
-          <ColumnContainer orientation="left">
-            <Label>Platform Fees</Label>
-            <Label reducedOpacity>Depends on the Settings</Label>
-          </ColumnContainer>
-          <ColumnContainer>
-            <Label reducedOpacity>as low as</Label>
-            <Label>$2.69</Label>
-          </ColumnContainer>
-        </RowBetween>
-
         <RowBetween>
           <Row width="fit-content" gap="5px">
             <Label>Network Fee</Label> <StyledInfoIcon />
           </Row>
-
-          <Label>$1.47</Label>
-        </RowBetween>
-
-        <Separator />
-
-        <RowBetween>
-          <Label weight="600">Total Fees</Label>
-          <Label>$4.15</Label>
+          {networkFee.isLoading ? <Loader /> : <Label>≈${networkFee.value || '-'}</Label>}
         </RowBetween>
       </DetailsWrapper>
     </Wrapper>

@@ -1,19 +1,14 @@
 import Image from 'next/image'
-import { useModalOpen, useToggleModal } from 'state/application/hooks'
-import { ApplicationModal } from 'state/application/reducer'
 import styled from 'styled-components'
-
 import { ArrowUpLeft } from 'components/Icons'
 import { Modal } from 'components/Modal'
-
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-
-import TokensList from 'components/App/SpotTrading/TokensList'
+import { useState } from 'react'
 import { ColumnContainer } from 'components/Column'
 import { Row } from 'components/Row'
 import SearchBar from 'components/SearchBar'
 import useCurrencyLogo from 'lib/hooks/useCurrencyLogo'
+import TokensList from 'components/App/SpotTrading/TokensList'
+import { Token } from '@orbs-network/liquidity-hub-ui-sdk'
 
 const Wrapper = styled.div`
   display: flex;
@@ -108,83 +103,27 @@ function SelectedChainElement({ data }: { data: any }) {
   )
 }
 
-export default function TokenSelectionModal() {
-  const isOpen = useModalOpen(ApplicationModal.TOKEN_SELECTION)
-  const toggleModal = useToggleModal(ApplicationModal.TOKEN_SELECTION)
-
-  const [tokensData, setTokensData] = useState<any[]>([])
-
-  const [searchValue, setSearchValue] = useState('')
-
-  const dispatch = useDispatch()
-
-  const handleUpdateSearch = (value: string): void => {
-    setSearchValue(value)
-  }
-
-  const mockTokensList = [
-    {
-      symbol: 'BTC',
-      name: 'Bitcoin',
-      value: '938',
-      secondaryValue: '941.32',
-    },
-    {
-      symbol: 'ETH',
-      name: 'Ethereum',
-      value: '938',
-      secondaryValue: '941.32',
-    },
-    {
-      symbol: 'USDC',
-      name: 'USD Coin',
-      value: '938',
-      secondaryValue: '941.32',
-    },
-    {
-      symbol: 'SOL',
-      name: 'Solana',
-      value: '938',
-      secondaryValue: '941.32',
-    },
-    {
-      symbol: 'PEPE',
-      name: 'PEPE Coin',
-      value: '938',
-      secondaryValue: '941.32',
-    },
-  ]
-
-  useEffect(() => {
-    if (searchValue !== '') {
-      setTokensData(
-        mockTokensList.filter(
-          (token) =>
-            token.symbol.toLowerCase().includes(searchValue.toLowerCase()) ||
-            token.name.toLowerCase().includes(searchValue.toLowerCase())
-        )
-      )
-    } else {
-      setTokensData(mockTokensList)
-    }
-  }, [searchValue, mockTokensList])
-
-  const handleSelectToken = (element: any): void => {
-    console.log('selectedToken', element)
-    toggleModal()
-  }
+export default function TokenSelectionModal({
+  onTokenSelect,
+  isOpen,
+  closeModal,
+}: {
+  onTokenSelect: (token: Token) => void
+  isOpen?: boolean
+  closeModal: () => void
+}) {
+  const [searchValue, handleUpdateSearch] = useState('')
 
   return (
-    <Modal isOpen={isOpen} onBackgroundClick={toggleModal} onEscapeKeydown={toggleModal}>
+    <Modal isOpen={!!isOpen} onBackgroundClick={closeModal} onEscapeKeydown={closeModal}>
       <Wrapper>
-        <BackTo onClick={() => toggleModal()}>
+        <BackTo onClick={closeModal}>
           <ArrowUpLeft />
           <span>Go Back</span>
         </BackTo>
         <Title>Select Token to transfer</Title>
         <SearchBar searchValue={searchValue} onChange={handleUpdateSearch} placeHolder="Search token..." />
-
-        <TokensList data={tokensData} onSelectToken={handleSelectToken} />
+        <TokensList onTokenSelect={onTokenSelect} searchValue={searchValue} />
       </Wrapper>
     </Modal>
   )
